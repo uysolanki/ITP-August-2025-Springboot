@@ -2,6 +2,7 @@ package com.itp.ITPAugustSpringboot.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class ProductController {
 	
 	@Autowired
 	ProductService productService;
+	
+	private static final Logger logger=Logger.getLogger(ProductController.class);
 	
 	@PostMapping("/add-product")
 	public ResponseEntity<String>  addProduct()
@@ -195,6 +198,7 @@ public class ProductController {
 	@DeleteMapping("/delete-product/{pid}")
 	public ResponseEntity<String> deleteProduct(@PathVariable int pid)
 	{
+		logger.info("Request received in controller to delete product ID " +pid);
 		productService.deleteProduct(pid);
 		return new ResponseEntity<String>("Product Deleted with ID "+pid,HttpStatus.OK);
 	}
@@ -204,7 +208,7 @@ public class ProductController {
 	{
 		return new ResponseEntity<Product>(productService.updateProduct(pid,newValues),HttpStatus.OK);
 	}
-	
+	//aop aspect oriented progamming
 	
 }
 

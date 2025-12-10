@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itp.ITPAugustSpringboot.controller.ProductController;
 import com.itp.ITPAugustSpringboot.entity.Product;
 import com.itp.ITPAugustSpringboot.exception.ProductNotFoundException;
 import com.itp.ITPAugustSpringboot.repository.ProductRepository;
@@ -17,6 +19,8 @@ public class ProductService {
 	@Autowired
 	ProductRepository productRepository;
 
+	private static final Logger logger=Logger.getLogger(ProductService.class);
+	
 	public Product addProduct(Product product1) {
 		return productRepository.save(product1);
 		
@@ -56,7 +60,7 @@ public class ProductService {
 	}
 	catch(NoSuchElementException ex1)
 	{
-		System.out.println(ex1.getMessage() +  " " +pid);
+		logger.warn(ex1.getMessage() +  " " +pid);
 		throw new ProductNotFoundException("Product you are searching is not in stock");
 	}
 	
@@ -71,7 +75,7 @@ public class ProductService {
 	}
 
 	public void deleteProduct(int pid) {
-		
+		logger.info("Request received in service to delete product ID " +pid);
 		if(!productRepository.existsById(pid))
 		{
 			throw new ProductNotFoundException("Product with ID "+ pid + " does not exist in the Database");
