@@ -63,11 +63,38 @@ public class ProductService {
 	}
 
 	public List<Product> filterProductByCategory(String category) {
-	return productRepository.findByCategoryContaining(category);
+	return productRepository.findByCategory(category);
 	}
 
 	public List<Product> filterProductByPriceGreaterThan(double price) {
 		return productRepository.findByPriceGreaterThanEqual(price);
+	}
+
+	public void deleteProduct(int pid) {
+		
+		if(!productRepository.existsById(pid))
+		{
+			throw new ProductNotFoundException("Product with ID "+ pid + " does not exist in the Database");
+		}
+		productRepository.deleteById(pid);
+		
+	}
+
+	public Product updateProduct(int pid, Product newValues) {
+		if(!productRepository.existsById(pid))
+		{
+			throw new ProductNotFoundException("Product with ID "+ pid + " does not exist in the Database");
+		}
+		
+		Product productFromDB=singleProduct(pid);
+		productFromDB.setCategory(newValues.getCategory());
+		productFromDB.setDescription(newValues.getDescription());
+		productFromDB.setImage(newValues.getImage());
+		productFromDB.setPrice(newValues.getPrice());
+		productFromDB.setTitle(newValues.getTitle());
+		productFromDB.getRating().setCount(newValues.getRating().getCount());
+		productFromDB.getRating().setRate(newValues.getRating().getRate());
+		return productRepository.save(productFromDB);
 	}
 	
 	

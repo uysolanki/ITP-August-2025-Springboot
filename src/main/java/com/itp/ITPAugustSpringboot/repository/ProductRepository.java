@@ -11,7 +11,7 @@ import com.itp.ITPAugustSpringboot.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer>
 {
 
-	List<Product> findByCategoryContaining(String a);
+	List<Product> findByCategory(String a);
 	
 	List<Product> findByPriceGreaterThanEqual(double a);
 }
