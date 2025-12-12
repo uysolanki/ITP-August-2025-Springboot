@@ -5,10 +5,13 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itp.ITPAugustSpringboot.controller.ProductController;
+import com.itp.ITPAugustSpringboot.dto.ProductRequestDTO;
+import com.itp.ITPAugustSpringboot.dto.ProductResponseDTO;
 import com.itp.ITPAugustSpringboot.entity.Product;
 import com.itp.ITPAugustSpringboot.exception.ProductNotFoundException;
 import com.itp.ITPAugustSpringboot.repository.ProductRepository;
@@ -18,6 +21,9 @@ public class ProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ModelMapper modelMapper;
 
 	private static final Logger logger=Logger.getLogger(ProductService.class);
 	
@@ -99,6 +105,13 @@ public class ProductService {
 		productFromDB.getRating().setCount(newValues.getRating().getCount());
 		productFromDB.getRating().setRate(newValues.getRating().getRate());
 		return productRepository.save(productFromDB);
+	}
+
+	public ProductResponseDTO addProductDTO(ProductRequestDTO productReqDTO) 
+	{
+		Product product = modelMapper.map(productReqDTO, Product.class);
+		Product savedProduct=productRepository.save(product);
+		return modelMapper.map(savedProduct, ProductResponseDTO.class);
 	}
 	
 	

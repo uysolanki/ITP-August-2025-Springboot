@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itp.ITPAugustSpringboot.dto.ProductRequestDTO;
+import com.itp.ITPAugustSpringboot.dto.ProductResponseDTO;
 import com.itp.ITPAugustSpringboot.entity.Product;
 import com.itp.ITPAugustSpringboot.entity.Rating;
 import com.itp.ITPAugustSpringboot.exception.ProductNotFoundException;
 import com.itp.ITPAugustSpringboot.service.ProductService;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class ProductController {
@@ -125,6 +129,12 @@ public class ProductController {
 	public ResponseEntity<Product> addProductByRequestBody(@RequestBody Product product1)
 	{
 		return new ResponseEntity<Product>(productService.addProduct(product1),HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/add-product-by-dto")
+	public ResponseEntity<ProductResponseDTO> addProductByDTO(@Valid @RequestBody ProductRequestDTO productReqDTO)
+	{
+		return new ResponseEntity<ProductResponseDTO>(productService.addProductDTO(productReqDTO),HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/add-multiple-products-by-requestbody")
