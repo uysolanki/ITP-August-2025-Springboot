@@ -1,14 +1,19 @@
 package com.itp.ITPAugustSpringboot.exception;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.itp.ITPAugustSpringboot.util.Category;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,8 +35,43 @@ public class GlobalExceptionHandler {
 		errors.add(apiError);
 		}
 		return new ResponseEntity<List<APIError>>(errors, HttpStatus.BAD_REQUEST);
-
 	}
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<APIError> handleEnumErrors(HttpMessageNotReadableException ex) {
+		
+		
+		Throwable cause=ex.getCause();
+		Object rejected = null;
+		String fieldName=null;
+		String allowedValues=null;
+	    // Check if Jackson threw InvalidFormatException
+	    if (cause instanceof com.fasterxml.jackson.databind.exc.InvalidFormatException invalidFormatEx) {
+	        rejected = invalidFormatEx.getValue();   // the wrong value user passed
+	    
+	    
+	    if (!invalidFormatEx.getPath().isEmpty()) {
+            fieldName = invalidFormatEx.getPath().get(0).getFieldName();
+        }
+	    
+        String message = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
+
+        // Extract enum values from your Category enum
+        allowedValues = Arrays.stream(Category.values())
+                                     .map(Enum::name)
+                                     .collect(Collectors.joining(", "));
+	    }
+        APIError error = new APIError(
+                "Invalid category. Allowed values: " + allowedValues,
+                fieldName,
+                rejected
+        );
+	    
+        return new ResponseEntity<APIError>(error, HttpStatus.BAD_REQUEST);
+    }
+	
+	
+	
 }
 
 /*

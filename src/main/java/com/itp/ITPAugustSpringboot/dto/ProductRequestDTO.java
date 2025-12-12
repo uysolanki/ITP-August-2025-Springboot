@@ -1,5 +1,7 @@
 package com.itp.ITPAugustSpringboot.dto;
 
+import com.itp.ITPAugustSpringboot.util.Category;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +29,7 @@ public class ProductRequestDTO {
     private String description;
 	
 	@NotBlank(message = "Category is required")
-    private String category;
+    private Category category;
     private String image;
     private RatingRequestDTO rating;
 }
