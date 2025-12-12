@@ -28,7 +28,6 @@ public class ProductRequestDTO {
 	@Size(min = 3, max = 300, message = "Title must be between 3 and 300 characters") 
     private String description;
 	
-	@NotBlank(message = "Category is required")
     private Category category;
     private String image;
     private RatingRequestDTO rating;
