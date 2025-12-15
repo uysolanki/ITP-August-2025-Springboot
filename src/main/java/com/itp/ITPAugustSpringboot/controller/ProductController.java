@@ -22,6 +22,7 @@ import com.itp.ITPAugustSpringboot.entity.Rating;
 import com.itp.ITPAugustSpringboot.exception.ProductNotFoundException;
 import com.itp.ITPAugustSpringboot.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -131,12 +132,14 @@ public class ProductController {
 		return new ResponseEntity<Product>(productService.addProduct(product1),HttpStatus.CREATED);
 	}
 	
+	@Operation(summary = "Saves single Product", description = "Save a new product")
 	@PostMapping("/add-product-by-dto")
 	public ResponseEntity<ProductResponseDTO> addProductByDTO(@Valid @RequestBody ProductRequestDTO productReqDTO)
 	{
 		return new ResponseEntity<ProductResponseDTO>(productService.addProductDTO(productReqDTO),HttpStatus.CREATED);
 	}
 	
+	@Operation(summary = "Saves multiple Product", description = "Save multiple product")
 	@PostMapping("/add-multiple-products-by-requestbody")
 	public ResponseEntity<List<Product>> addMultipleProductsByRequestBody(@RequestBody List<Product> products)
 	{
