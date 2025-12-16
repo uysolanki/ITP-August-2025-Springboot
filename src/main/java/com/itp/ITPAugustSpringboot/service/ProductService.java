@@ -102,8 +102,11 @@ public class ProductService {
 		productFromDB.setImage(newValues.getImage());
 		productFromDB.setPrice(newValues.getPrice());
 		productFromDB.setTitle(newValues.getTitle());
+		if(newValues.getRating()!=null)
+		{
 		productFromDB.getRating().setCount(newValues.getRating().getCount());
 		productFromDB.getRating().setRate(newValues.getRating().getRate());
+		}
 		return productRepository.save(productFromDB);
 	}
 

@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/itpaugspringbootdb-local
+    password: ''
+  application:
+    name: ITPAugustSpringboot
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: '8085'
