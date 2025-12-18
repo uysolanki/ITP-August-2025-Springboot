@@ -1,5 +1,6 @@
 package com.itp.ITPAugustSpringboot.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -80,5 +81,24 @@ public class ProductControllerFE {
 		productService.updateProduct(prodId,newValues);
 		return "redirect:/flipkart/allProducts";
 	}
+	
+	@RequestMapping(value = "/403")
+	public ModelAndView accesssDenied(Principal user) {
+
+		ModelAndView model = new ModelAndView();
+
+		if (user != null) {
+			model.addObject("msg", "Hi " + user.getName() 
+			+ ", you do not have permission to access this page!");
+		} else {
+			model.addObject("msg", 
+			    "you do not have permission to access this page!");
+		}
+
+		model.setViewName("403");
+		return model;
+
+	}
+
 }
 

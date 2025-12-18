@@ -4,6 +4,10 @@ spring:
     username: root
     url: jdbc:mysql://localhost:3306/itpaugspringbootdb-local
     password: ''
+  security:
+    user:
+      name: test
+      password: test
   application:
     name: ITPAugustSpringboot
   jpa:
