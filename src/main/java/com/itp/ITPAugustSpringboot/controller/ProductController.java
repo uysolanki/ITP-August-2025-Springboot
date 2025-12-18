@@ -23,7 +23,7 @@ import com.itp.ITPAugustSpringboot.exception.ProductNotFoundException;
 import com.itp.ITPAugustSpringboot.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 public class ProductController {
